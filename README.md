@@ -1,31 +1,68 @@
-# 青藏高原地质灾害风险空间数据库与分析成果
+# Qinghai–Tibet Plateau Geohazard Susceptibility and Emergency Response
 
-课程实习项目的真实成果静态展示。浏览网站无需 SQL Server 或 Python。
+A spatial database and GIS analysis project connecting potential geohazard locations, exposed settlements, emergency facilities, and transport networks across the part of the Qinghai–Tibet Plateau within China.
 
-在线演示：https://button694.github.io/qinghai-tibet-disaster-project/
+**[Interactive website](https://button694.github.io/qinghai-tibet-disaster-project/)** | **[Analysis methods and execution guide](ANALYSIS.md)**
 
-## 分析代码
+Visitors can explore the published results without installing SQL Server or Python.
 
-危险点筛查和救援网络计算脚本见 [分析代码与运行说明](ANALYSIS.md)。运行需要自行准备原始空间数据；浏览在线演示无需安装依赖。
+## Background and motivation
 
-## 保存情况
+On 26 August 2026, a debris-flow disaster originating upstream in Nepal struck the Gyirong border port in Tibet, China, causing major casualties and leaving people missing. The China Geological Survey's preliminary assessment traced the event to a high-altitude ice collapse that entrained moraine material and evolved into a debris flow. This disaster motivated our team to explore how spatial data could support potential geohazard identification and emergency response planning. See the [China Geological Survey report](https://www.cgs.gov.cn/ywdt/ddyw/202608/t20260828_867531.html).
 
-实习结束后因硬盘故障，部分训练代码未能保留。现存两份分析脚本、SHAP 权重运行截图和表格，以及数据库已保存成果。截图与后续脚本所用原始权重逐项一致；训练过程的完整复现材料暂缺。
+We built the database specifically to support these connected functions: organizing environmental and historical hazard data, screening locations potentially susceptible to future hazards, assessing possible settlement exposure, and linking these locations to emergency facilities through the regional transport network.
 
-## 项目工作
-王亦彦负责主要原始数据获取、全部数据预处理、SQL Server 数据库建设、CatBoost 与 SHAP 灾害因子分析，以及救援路径计算。前端 UI 由小组伙伴开发。静态发布适配用于成果展示，不改变原始数据库。
+## Study area and data
 
-## 成果与范围
-- 1,582 个正式易发性成果点
-- 4,566 条综合救援路线
-- 1,529 处医院设施
-- 58 条数据集登记
-- 31 份轻量栅格预览
-- 另含 2050、2100 情景成果，来源与项目自身成果分开展示
+The study area covers the portion of the Qinghai–Tibet Plateau within China. Our team assembled and processed environmental data describing climate, terrain, geomorphology, and related geological conditions, together with historical landslide, debris-flow, and other hazard records. Original dataset sources are documented in the website's data catalog.
 
-数据快照导出日期：2026-10-27。所有数量沿用真实数据库导出结果。线面几何按 200 米容差概化，仅供浏览；点位属性保留导出值。大体量图层仅保留目录，未以合成数据替代。
+The database integrates environmental rasters, historical hazards, settlements, hospitals, fire stations, rescue facilities, roads, railways, and analytical outputs. The implemented susceptibility model uses 11 factors: precipitation, elevation, distance to historical earthquakes, distance to glacial lakes, slope, permafrost type, distance to glaciers, land cover, distance to roads, distance to rivers, and aspect.
 
-网页不提供实时预警、模型重算、精确空间查询或实时救援调度。路线距离是原数据库保存的网络距离，不等同于实际通行时间。静态版未打包全部资源关联详情。数据来源信息在目录页面保留，数据和第三方代码的原有权利不因本仓库公开而改变。
+## Analytical workflow
 
-## 发布
-site.zip 是已构建网站，不含数据库备份、密码、连接配置或完整原始栅格。GitHub Actions 解压并发布静态网页。Pages 设置中将发布源选择为 GitHub Actions。
+1. **Data preparation and database construction.** Acquire source datasets, standardize spatial references, process vector and raster layers, and organize the results in a SQL Server spatial database.
+2. **CatBoost and SHAP analysis.** Combine historical hazard records with environmental predictors to construct training data, train a CatBoost model, and derive factor importance from mean absolute SHAP values. Normalize these importance values into weights for subsequent spatial scoring.
+3. **Potential hazard location screening.** Apply the saved SHAP-derived weights to the latest environmental factor layers available to the project, calculate susceptibility scores on a 1 km grid, and extract high-scoring local maxima. Rule-based classification and DEM-based downslope tracing support potential settlement-impact screening.
+4. **Emergency route planning.** Combine roads and railways into a network and use multi-source Dijkstra analysis to associate candidate locations with hospitals, fire stations, and rescue facilities. The routing objective is shortest modeled network distance; airport associations use straight-line distance.
+5. **Integration and visualization.** Store analytical results alongside source datasets and provide maps, a data catalog, result inspection, and route visualization.
+
+These candidate locations represent regional susceptibility screening for possible future hazards. They do not predict when an event will occur or provide calibrated event probabilities. Routes do not account for real-time closures, disaster damage, travel speeds, or facility availability. Detailed assumptions are documented in [ANALYSIS.md](ANALYSIS.md).
+
+## Preserved results
+
+| Published content | Count |
+| --- | ---: |
+| Saved susceptibility result points | 1,582 |
+| Integrated rescue routes | 4,566 |
+| Hospital facilities | 1,529 |
+| Dataset catalog records | 58 |
+| Lightweight raster previews | 31 |
+
+The website also includes saved 2050 and 2100 scenario products, with provenance distinguished from the team's own analytical outputs. The snapshot was exported on **27 October 2026**.
+
+## Team contributions
+
+**Yiyan Wang** carried out most source-data acquisition, all data preprocessing, the entire SQL Server database construction, CatBoost/SHAP factor analysis, and emergency route computation. Analysis code was developed with AI assistance according to his model and workflow design. Other team members developed the frontend user interface.
+
+## Available code and evidence
+
+- `build_geohazard_settlement_analysis_v4.py`: weighted susceptibility scoring, candidate extraction, hazard-type rules, and settlement-impact screening.
+- `build_hazard_rescue_network_analysis_v1_2.py`: emergency facility association and transport-network route computation.
+- `shap_weights_run.png` and `SHAP_weights.csv`: original console screenshot and transcribed factor-weight results.
+- `requirements.txt` and `provenance.json`: dependencies and checksums documenting the preserved script copies.
+
+The CatBoost training and SHAP-computation code was lost following a hard-drive failure. The surviving hazard script consumes previously calculated weights; it does not train CatBoost. This repository preserves downstream analysis and result evidence rather than a complete reproducible training experiment. Training samples, the fitted model, tuning logs, and performance records are not included. Model accuracy cannot be inferred from the weight screenshot.
+
+## Website publication and scope
+
+`site.zip` contains the built static website. GitHub Actions extracts it and deploys it to GitHub Pages. It includes no database backup, credentials, connection settings, or complete source rasters.
+
+The website displays saved results without a live SQL Server connection. Line and polygon geometries are simplified using a 200 m tolerance for browsing; exported point attributes retain their saved values. Some large layers are represented by catalog entries only. The static edition does not provide model recomputation, precise spatial queries, live warnings, real-time dispatch, or every resource-association detail. Saved network distances are not actual travel times.
+
+Source attribution is retained in the data catalog. Publication does not change the rights or licenses of third-party datasets or software.
+
+## Method reference
+
+Yang et al. (2026). *Landslide susceptibility on the Qinghai-Tibet Plateau: Key driving factors identified through machine learning*. Journal of Geographical Sciences, 36(1), 199–218. [doi:10.1007/s11442-026-2444-6](https://doi.org/10.1007/s11442-026-2444-6).
+
+This paper informed the CatBoost/SHAP methodology. The project adapted the factor set and added hazard screening, settlement-impact screening, and rescue-network analysis. The paper's reported performance is not a performance measurement for this project.
