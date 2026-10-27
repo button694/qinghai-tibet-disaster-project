@@ -1,0 +1,18 @@
+[
+  {
+    "source_file": "build_geohazard_settlement_analysis_v4(1).py",
+    "published_file": "build_geohazard_settlement_analysis_v4.py",
+    "original_sha256": "03d545e59e6c73afa6b053cb8d3b77eb9664754b78b0763d4cbf062a3f4a2af4",
+    "published_sha256": "6ed2ec093768d064b6b401267e00b583bd98b346fa66ae2c0d1e818f855796b3",
+    "changes": "Only Config path defaults replaced with relative data/outputs paths; all function ASTs unchanged.",
+    "functions_checked": 46
+  },
+  {
+    "source_file": "build_hazard_rescue_network_analysis_v1_2(1).py",
+    "published_file": "build_hazard_rescue_network_analysis_v1_2.py",
+    "original_sha256": "c969338734a89df2cbb5f8c4d2da48ece041c2416f2c1939ee877ce8ad44b907",
+    "published_sha256": "58365fe6cec85741ec97b935f8006a384e575c1f7390129b200a0d2cb4a7c6ef",
+    "changes": "Only Config path defaults replaced with relative data/outputs paths; all function ASTs unchanged.",
+    "functions_checked": 26
+  }
+]

@@ -1,0 +1,12 @@
+﻿rank,factor_code,factor_name,mean_abs_shap_screenshot,project_weight_percent,yang2026_reference_percent,reference_source
+1,precipitation,多年平均降水,2.300672,26.787089,9.28,Yang 2026
+2,altitude,高程,1.967273,22.905266,20.86,Yang 2026
+3,earthquake_distance,距地震点距离,1.517446,17.667869,17.35,Yang 2026
+4,glacial_lake_distance,距冰湖距离,0.656018,7.638124,,项目扩展
+5,slope,坡度,0.520306,6.058010,6.61,Yang 2026
+6,permafrost,冻土类型,0.475280,5.533756,,项目扩展
+7,glacier_distance,距冰川距离,0.424631,4.944050,,项目扩展
+8,landcover,土地覆盖,0.317910,3.699798,1.88,Yang 2026
+9,road_distance,距道路距离,0.220128,2.562985,17.43,Yang 2026
+10,river_distance,距河流距离,0.135569,1.578448,5.8,Yang 2026
+11,aspect,坡向,0.053802,0.626425,1.34,Yang 2026
