@@ -42,7 +42,7 @@ The website also includes saved 2050 and 2100 scenario products, with provenance
 
 ## Team contributions
 
-**Yiyan Wang** carried out most source-data acquisition, all data preprocessing, the entire SQL Server database construction, CatBoost/SHAP factor analysis, and emergency route computation. Analysis code was developed with AI assistance according to his model and workflow design. Other team members developed the frontend user interface.
+**Yiyan Wang** was responsible for source-data acquisition, all data preprocessing, the design and construction of the SQL Server spatial database, CatBoost/SHAP factor analysis, and emergency rescue-route computation. Chenming Yang contributed to data acquisition, while Jiayi Chen and Xiaotong Deng developed the initial web interface in collaboration with Wang. Wang subsequently extended and refined the website.
 
 ## Available code and evidence
 
