@@ -2,6 +2,12 @@
 
 Open the [interactive map](https://button694.github.io/qinghai-tibet-disaster-project/#/map).
 
+## Source links and result-card correction
+
+The published Risk analysis page now presents the data-center homepage followed by the specific hazardous-glacial-lake dataset URL, with direct links and copy buttons. The legacy missing-manifest viewer is replaced by this source page and links into the working 2050/2100 explorer. Topic links select the corresponding year directly.
+
+The results list no longer displays a hard-coded "insufficient data" badge on every risk result. Individual HAZ_LEVEL and SCORE values are preserved; no aggregate risk class is invented for the full result collection.
+
 - Search provincial, municipal and county names or administrative codes. Select a region to filter the map and paginated location list together.
 - Select a hazard point in the list or on the map to display its linked emergency facilities and saved routes. Select a facility card to isolate a route; select it again to show all linked routes.
 - Switch between team-computed susceptibility results and externally sourced 2050/2100 glacial-lake data. The future lake data and the team's routing calculations are labeled separately.
